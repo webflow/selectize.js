@@ -1,9 +1,10 @@
-.selectize-control.plugin-remove_button {
+@import '../../less/variables.less';
+.@{prefix}selectize-control.@{prefix}plugin-remove_button {
 	[data-value] {
 		position: relative;
 		padding-right: 24px !important;
 	}
-	[data-value] .remove {
+	[data-value] .@{prefix}remove {
 		z-index: 1; /* fixes ie bug (see #392) */
 		position: absolute;
 		top: 0;
@@ -22,16 +23,16 @@
 		.selectize-border-radius(0 2px 2px 0);
 		.selectize-box-sizing(border-box);
 	}
-	[data-value] .remove:hover {
+	[data-value] .@{prefix}remove:hover {
 		background: rgba(0,0,0,0.05);
 	}
-	[data-value].active .remove {
+	[data-value].@{prefix}active .@{prefix}remove {
 		border-left-color: @selectize-color-item-active-border;
 	}
-	.disabled [data-value] .remove:hover {
+	.@{prefix}disabled [data-value] .@{prefix}remove:hover {
 		background: none;
 	}
-	.disabled [data-value] .remove {
+	.@{prefix}disabled [data-value] .@{prefix}remove {
 		border-left-color: lighten(desaturate(@selectize-color-item-border, 100%), @selectize-lighten-disabled-item-border);
 	}
 }

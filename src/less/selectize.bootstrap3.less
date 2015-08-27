@@ -63,7 +63,7 @@
 @selectize-arrow-color: @selectize-color-text;
 @selectize-arrow-offset: @selectize-padding-x + 5px;
 
-.selectize-dropdown, .selectize-dropdown.form-control {
+.@{prefix}selectize-dropdown, .@{prefix}selectize-dropdown.@{prefix}form-control {
 	height: auto;
 	padding: 0;
 	margin: 2px 0 0 0;
@@ -75,15 +75,15 @@
 	.selectize-box-shadow(0 6px 12px rgba(0,0,0,.175));
 }
 
-.selectize-dropdown {
-	.optgroup-header {
+.@{prefix}selectize-dropdown {
+	.@{prefix}optgroup-header {
 		font-size: @font-size-small;
 		line-height: @line-height-base;
 	}
-	.optgroup:first-child:before {
+	.@{prefix}optgroup:first-child:before {
 		display: none;
 	}
-	.optgroup:before {
+	.@{prefix}optgroup:before {
 		content: ' ';
 		display: block;
 		.nav-divider();
@@ -92,24 +92,24 @@
 	}
 }
 
-.selectize-dropdown-content {
+.@{prefix}selectize-dropdown-content {
 	padding: 5px 0;
 }
 
-.selectize-dropdown-header {
+.@{prefix}selectize-dropdown-header {
 	padding: @selectize-padding-dropdown-item-y * 2 @selectize-padding-dropdown-item-x;
 }
 
-.selectize-input {
+.@{prefix}selectize-input {
 	min-height: @input-height-base;
 
-	&.dropdown-active {
+	&.@{prefix}dropdown-active {
 		.selectize-border-radius(@selectize-border-radius);
 	}
-	&.dropdown-active::before {
+	&.@{prefix}dropdown-active::before {
 		display: none;
 	}
-	&.focus {
+	&.@{prefix}focus {
 		@color: @input-border-focus;
 		@color-rgba: rgba(red(@color), green(@color), blue(@color), .6);
 		border-color: @color;
@@ -118,7 +118,7 @@
 	}
 }
 
-.has-error .selectize-input {
+.@{prefix}has-error .@{prefix}selectize-input {
     border-color: @selectize-color-input-error;
     .selectize-box-shadow(@selectize-shadow-input-error);
 
@@ -128,19 +128,19 @@
     }
 }
 
-.selectize-control {
-	&.multi {
-		.selectize-input.has-items {
+.@{prefix}selectize-control {
+	&.@{prefix}multi {
+		.@{prefix}selectize-input.@{prefix}has-items {
 			padding-left: @selectize-padding-x - @selectize-padding-item-x;
 			padding-right: @selectize-padding-x - @selectize-padding-item-x;
 		}
-		.selectize-input > div {
+		.@{prefix}selectize-input > div {
 			.selectize-border-radius(@selectize-border-radius - 1px);
 		}
 	}
 }
 
-.form-control.selectize-control {
+.@{prefix}form-control.@{prefix}selectize-control {
 	padding: 0;
 	height: auto;
 	border: none;

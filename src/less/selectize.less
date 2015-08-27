@@ -1,4 +1,5 @@
 // base styles
+@import 'variables.less';
 
 @selectize-font-family: inherit;
 @selectize-font-smoothing: inherit;
@@ -87,11 +88,11 @@
     filter: e(%("progid:DXImageTransform.Microsoft.gradient(startColorstr='%d', endColorstr='%d', GradientType=0)",argb(@color-top),argb(@color-bottom))); // IE9 and down
 }
 
-.selectize-control {
+.@{prefix}selectize-control {
 	position: relative;
 }
 
-.selectize-dropdown, .selectize-input, .selectize-input input {
+.@{prefix}selectize-dropdown, .@{prefix}selectize-input, .@{prefix}selectize-input input {
 	color: @selectize-color-text;
 	font-family: @selectize-font-family;
 	font-size: @selectize-font-size;
@@ -99,13 +100,13 @@
 	-webkit-font-smoothing: @selectize-font-smoothing;
 }
 
-.selectize-input, .selectize-control.single .selectize-input.input-active {
+.@{prefix}selectize-input, .@{prefix}selectize-control.@{prefix}single .@{prefix}selectize-input.@{prefix}input-active {
 	background: @selectize-color-input;
 	cursor: text;
 	display: inline-block;
 }
 
-.selectize-input {
+.@{prefix}selectize-input {
 	border: @selectize-border;
 	padding: @selectize-padding-y @selectize-padding-x;
 	display: inline-block;
@@ -117,23 +118,23 @@
 	.selectize-box-shadow(@selectize-shadow-input);
 	.selectize-border-radius(@selectize-border-radius);
 
-	.selectize-control.multi &.has-items {
+	.@{prefix}selectize-control.@{prefix}multi &.@{prefix}has-items {
 		@padding-x: @selectize-padding-x;
 		@padding-top: @selectize-padding-y - @selectize-padding-item-y - @selectize-width-item-border;
 		@padding-bottom: @selectize-padding-y - @selectize-padding-item-y - @selectize-margin-item-y - @selectize-width-item-border;
 		padding: @padding-top @padding-x @padding-bottom;
 	}
 
-	&.full {
+	&.@{prefix}full {
 		background-color: @selectize-color-input-full;
 	}
-	&.disabled, &.disabled * {
+	&.@{prefix}disabled, &.@{prefix}disabled * {
 		cursor: default !important;
 	}
-	&.focus {
+	&.@{prefix}focus {
 		.selectize-box-shadow(@selectize-shadow-input-focus);
 	}
-	&.dropdown-active {
+	&.@{prefix}dropdown-active {
 		.selectize-border-radius(@selectize-border-radius @selectize-border-radius 0 0);
 	}
 
@@ -144,7 +145,7 @@
 		zoom: 1;
 		*display: inline;
 	}
-	.selectize-control.multi & > div {
+	.@{prefix}selectize-control.@{prefix}multi & > div {
 		cursor: pointer;
 		margin: 0 @selectize-margin-item-x @selectize-margin-item-y 0;
 		padding: @selectize-padding-item-y @selectize-padding-item-x;
@@ -152,14 +153,14 @@
 		color: @selectize-color-item-text;
 		border: @selectize-width-item-border solid @selectize-color-item-border;
 
-		&.active {
+		&.@{prefix}active {
 			background: @selectize-color-item-active;
 			color: @selectize-color-item-active-text;
 			border: @selectize-width-item-border solid @selectize-color-item-active-border;
 		}
 	}
-	.selectize-control.multi &.disabled > div {
-		&, &.active {
+	.@{prefix}selectize-control.@{prefix}multi &.@{prefix}disabled > div {
+		&, &.@{prefix}active {
 			color: lighten(desaturate(@selectize-color-item-text, 100%), @selectize-lighten-disabled-item-text);
 			background: lighten(desaturate(@selectize-color-item, 100%), @selectize-lighten-disabled-item);
 			border: @selectize-width-item-border solid lighten(desaturate(@selectize-color-item-border, 100%), @selectize-lighten-disabled-item-border);
@@ -185,13 +186,13 @@
 	}
 }
 
-.selectize-input::after {
+.@{prefix}selectize-input::after {
 	content: ' ';
 	display: block;
 	clear: left;
 }
 
-.selectize-input.dropdown-active::before {
+.@{prefix}selectize-input.@{prefix}dropdown-active::before {
 	content: ' ';
 	display: block;
 	position: absolute;
@@ -202,7 +203,7 @@
 	right: 0;
 }
 
-.selectize-dropdown {
+.@{prefix}selectize-dropdown {
 	position: absolute;
 	z-index: 10;
 	border: @selectize-dropdown-border;
@@ -216,43 +217,43 @@
 	[data-selectable] {
 		cursor: pointer;
 		overflow: hidden;
-		.highlight {
+		.@{prefix}highlight {
 			background: @selectize-color-highlight;
 			.selectize-border-radius(1px);
 		}
 	}
-	[data-selectable], .optgroup-header {
+	[data-selectable], .@{prefix}optgroup-header {
 		padding: @selectize-padding-dropdown-item-y @selectize-padding-dropdown-item-x;
 	}
-	.optgroup:first-child .optgroup-header {
+	.@{prefix}optgroup:first-child .@{prefix}optgroup-header {
 		border-top: 0 none;
 	}
-	.optgroup-header {
+	.@{prefix}optgroup-header {
 		color: @selectize-color-optgroup-text;
 		background: @selectize-color-optgroup;
 		cursor: default;
 	}
-	.active {
+	.@{prefix}active {
 		background-color: @selectize-color-dropdown-item-active;
 		color: @selectize-color-dropdown-item-active-text;
-		&.create {
+		&.@{prefix}create {
 			color: @selectize-color-dropdown-item-create-active-text;
 		}
 	}
-	.create {
+	.@{prefix}create {
 		color: @selectize-color-dropdown-item-create-text;
 	}
 }
 
-.selectize-dropdown-content {
+.@{prefix}selectize-dropdown-content {
 	overflow-y: auto;
 	overflow-x: hidden;
 	max-height: @selectize-max-height-dropdown;
 }
 
-.selectize-control.single .selectize-input {
+.@{prefix}selectize-control.@{prefix}single .@{prefix}selectize-input {
 	&, input { cursor: pointer; }
-	&.input-active, &.input-active input { cursor: text; }
+	&.@{prefix}input-active, &.@{prefix}input-active input { cursor: text; }
 
 	&:after {
 		content: ' ';
@@ -267,24 +268,24 @@
 		border-width: @selectize-arrow-size @selectize-arrow-size 0 @selectize-arrow-size;
 		border-color: @selectize-arrow-color transparent transparent transparent;
 	}
-	&.dropdown-active:after {
+	&.@{prefix}dropdown-active:after {
 		margin-top: @selectize-arrow-size * -0.8;
 		border-width: 0 @selectize-arrow-size @selectize-arrow-size @selectize-arrow-size;
 		border-color: transparent transparent @selectize-arrow-color transparent;
 	}
 }
 
-.selectize-control.rtl {
-	&.single .selectize-input:after {
+.@{prefix}selectize-control.@{prefix}rtl {
+	&.@{prefix}single .selectize-input:after {
 		left: @selectize-arrow-offset;
 		right: auto;
 	}
-	.selectize-input > input {
+	.@{prefix}selectize-input > input {
 		margin: @selectize-caret-margin-rtl !important;
 	}
 }
 
-.selectize-control .selectize-input.disabled {
+.@{prefix}selectize-control .@{prefix}selectize-input.@{prefix}disabled {
 	opacity: @selectize-opacity-disabled;
 	background-color: @selectize-color-disabled;
 }
