@@ -19,10 +19,10 @@ Selectize.define('dropdown_header', function(options) {
 
 	options = $.extend({
 		title         : 'Untitled',
-		headerClass   : 'selectize-dropdown-header',
-		titleRowClass : 'selectize-dropdown-header-title',
-		labelClass    : 'selectize-dropdown-header-label',
-		closeClass    : 'selectize-dropdown-header-close',
+		headerClass   : this.settings.classPrefix + 'selectize-dropdown-header',
+		titleRowClass : this.settings.classPrefix + 'selectize-dropdown-header-title',
+		labelClass    : this.settings.classPrefix + 'selectize-dropdown-header-label',
+		closeClass    : this.settings.classPrefix + 'selectize-dropdown-header-close',
 
 		html: function(data) {
 			return (

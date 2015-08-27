@@ -51,6 +51,12 @@ var Selectize = function($input, settings) {
 		onSearchChange   : settings.loadThrottle === null ? self.onSearchChange : debounce(self.onSearchChange, settings.loadThrottle)
 	});
 
+	// apply class prefix
+	self.settings.wrapperClass         = self.settings.classPrefix + self.settings.wrapperClass;
+	self.settings.inputClass           = self.settings.classPrefix + self.settings.inputClass;
+	self.settings.dropdownClass        = self.settings.classPrefix + self.settings.dropdownClass;
+	self.settings.dropdownContentClass = self.settings.classPrefix + self.settings.dropdownContentClass;
+
 	// search system
 	self.sifter = new Sifter(this.options, {diacritics: settings.diacritics});
 
@@ -118,12 +124,13 @@ $.extend(Selectize.prototype, {
 
 		inputMode         = self.settings.mode;
 		classes           = $input.attr('class') || '';
+		classes						= classes ? classes.split(' ').map(function(className) {return settings.classPrefix + className;}).join(' ') : classes;
 
-		$wrapper          = $('<div>').addClass(settings.wrapperClass).addClass(classes).addClass(inputMode);
-		$control          = $('<div>').addClass(settings.inputClass).addClass('items').appendTo($wrapper);
+		$wrapper          = $('<div>').addClass(settings.wrapperClass).addClass(classes).addClass(self.settings.classPrefix + inputMode);
+		$control          = $('<div>').addClass(settings.inputClass).addClass(self.settings.classPrefix + 'items').appendTo($wrapper);
 		$control_input    = $('<input type="text" autocomplete="off" />').appendTo($control).attr('tabindex', $input.is(':disabled') ? '-1' : self.tabIndex);
 		$dropdown_parent  = $(settings.dropdownParent || $wrapper);
-		$dropdown         = $('<div>').addClass(settings.dropdownClass).addClass(inputMode).hide().appendTo($dropdown_parent);
+		$dropdown         = $('<div>').addClass(settings.dropdownClass).addClass(self.settings.classPrefix + inputMode).hide().appendTo($dropdown_parent);
 		$dropdown_content = $('<div>').addClass(settings.dropdownContentClass).appendTo($dropdown);
 
 		if(self.settings.copyClassesToDropdown) {
@@ -135,7 +142,7 @@ $.extend(Selectize.prototype, {
 		});
 
 		if (self.plugins.names.length) {
-			classes_plugins = 'plugin-' + self.plugins.names.join(' plugin-');
+			classes_plugins = this.settings.classPrefix + 'plugin-' + self.plugins.names.join(' ' + this.settings.classPrefix + 'plugin-');
 			$wrapper.addClass(classes_plugins);
 			$dropdown.addClass(classes_plugins);
 		}
@@ -259,7 +266,7 @@ $.extend(Selectize.prototype, {
 		self.on('change', this.onChange);
 
 		$input.data('selectize', self);
-		$input.addClass('selectized');
+		$input.addClass(self.settings.classPrefix + 'selectized');
 		self.trigger('initialize');
 
 		// preload options
@@ -279,19 +286,19 @@ $.extend(Selectize.prototype, {
 
 		var templates = {
 			'optgroup': function(data) {
-				return '<div class="optgroup">' + data.html + '</div>';
+				return '<div class="' + self.settings.classPrefix + 'optgroup">' + data.html + '</div>';
 			},
 			'optgroup_header': function(data, escape) {
-				return '<div class="optgroup-header">' + escape(data[field_optgroup]) + '</div>';
+				return '<div class="' + self.settings.classPrefix + 'optgroup-header">' + escape(data[field_optgroup]) + '</div>';
 			},
 			'option': function(data, escape) {
-				return '<div class="option">' + escape(data[field_label]) + '</div>';
+				return '<div class="' + self.settings.classPrefix + 'option">' + escape(data[field_label]) + '</div>';
 			},
 			'item': function(data, escape) {
-				return '<div class="item">' + escape(data[field_label]) + '</div>';
+				return '<div class="' + self.settings.classPrefix + 'item">' + escape(data[field_label]) + '</div>';
 			},
 			'option_create': function(data, escape) {
-				return '<div class="create">Add <strong>' + escape(data.input) + '</strong>&hellip;</div>';
+				return '<div class="' + self.settings.classPrefix + 'create">Add <strong>' + escape(data.input) + '</strong>&hellip;</div>';
 			}
 		};
 
@@ -664,7 +671,7 @@ $.extend(Selectize.prototype, {
 		}
 
 		$target = $(e.currentTarget);
-		if ($target.hasClass('create')) {
+		if ($target.hasClass(self.settings.classPrefix + 'create')) {
 			self.createItem(null, function() {
 				if (self.settings.closeAfterSelect) {
 					self.close();
@@ -788,7 +795,7 @@ $.extend(Selectize.prototype, {
 
 		// clear the active selection
 		if (!$item.length) {
-			$(self.$activeItems).removeClass('active');
+			$(self.$activeItems).removeClass(self.settings.classPrefix + 'active');
 			self.$activeItems = [];
 			if (self.isFocused) {
 				self.showInput();
@@ -811,22 +818,22 @@ $.extend(Selectize.prototype, {
 			for (i = begin; i <= end; i++) {
 				item = self.$control[0].childNodes[i];
 				if (self.$activeItems.indexOf(item) === -1) {
-					$(item).addClass('active');
+					$(item).addClass(self.settings.classPrefix + 'active');
 					self.$activeItems.push(item);
 				}
 			}
 			e.preventDefault();
 		} else if ((eventName === 'mousedown' && self.isCtrlDown) || (eventName === 'keydown' && this.isShiftDown)) {
-			if ($item.hasClass('active')) {
+			if ($item.hasClass(self.settings.classPrefix + 'active')) {
 				idx = self.$activeItems.indexOf($item[0]);
 				self.$activeItems.splice(idx, 1);
-				$item.removeClass('active');
+				$item.removeClass(self.settings.classPrefix + 'active');
 			} else {
-				self.$activeItems.push($item.addClass('active')[0]);
+				self.$activeItems.push($item.addClass(self.settings.classPrefix + 'active')[0]);
 			}
 		} else {
-			$(self.$activeItems).removeClass('active');
-			self.$activeItems = [$item.addClass('active')[0]];
+			$(self.$activeItems).removeClass(self.settings.classPrefix + 'active');
+			self.$activeItems = [$item.addClass(self.settings.classPrefix + 'active')[0]];
 		}
 
 		// ensure control has focus
@@ -849,13 +856,13 @@ $.extend(Selectize.prototype, {
 		var scroll_top, scroll_bottom;
 		var self = this;
 
-		if (self.$activeOption) self.$activeOption.removeClass('active');
+		if (self.$activeOption) self.$activeOption.removeClass(self.settings.classPrefix + 'active');
 		self.$activeOption = null;
 
 		$option = $($option);
 		if (!$option.length) return;
 
-		self.$activeOption = $option.addClass('active');
+		self.$activeOption = $option.addClass(self.settings.classPrefix + 'active');
 
 		if (scroll || !isset(scroll)) {
 
@@ -882,7 +889,7 @@ $.extend(Selectize.prototype, {
 		var self = this;
 		if (self.settings.mode === 'single') return;
 
-		self.$activeItems = Array.prototype.slice.apply(self.$control.children(':not(input)').addClass('active'));
+		self.$activeItems = Array.prototype.slice.apply(self.$control.children(':not(input)').addClass(self.settings.classPrefix + 'active'));
 		if (self.$activeItems.length) {
 			self.hideInput();
 			self.close();
@@ -1098,14 +1105,14 @@ $.extend(Selectize.prototype, {
 		// highlight matching terms inline
 		if (self.settings.highlight && results.query.length && results.tokens.length) {
 			for (i = 0, n = results.tokens.length; i < n; i++) {
-				highlight($dropdown_content, results.tokens[i].regex);
+				highlight($dropdown_content, results.tokens[i].regex, self.settings.classPrefix);
 			}
 		}
 
 		// add "selected" class to selected options
 		if (!self.settings.hideSelected) {
 			for (i = 0, n = self.items.length; i < n; i++) {
-				self.getOption(self.items[i]).addClass('selected');
+				self.getOption(self.items[i]).addClass(self.settings.classPrefix + 'selected');
 			}
 		}
 
@@ -1289,7 +1296,7 @@ $.extend(Selectize.prototype, {
 		if (self.items.indexOf(value_new) !== -1) {
 			$item = self.getItem(value);
 			$item_new = $(self.render('item', data));
-			if ($item.hasClass('active')) $item_new.addClass('active');
+			if ($item.hasClass(self.settings.classPrefix + 'active')) $item_new.addClass(self.settings.classPrefix + 'active');
 			$item.replaceWith($item_new);
 		}
 
@@ -1490,7 +1497,7 @@ $.extend(Selectize.prototype, {
 
 		if (i !== -1) {
 			$item.remove();
-			if ($item.hasClass('active')) {
+			if ($item.hasClass(self.settings.classPrefix + 'active')) {
 				idx = self.$activeItems.indexOf($item[0]);
 				self.$activeItems.splice(idx, 1);
 			}
@@ -1611,19 +1618,19 @@ $.extend(Selectize.prototype, {
 		var isLocked = self.isLocked;
 
 		self.$wrapper
-			.toggleClass('rtl', self.rtl);
+			.toggleClass(self.settings.classPrefix + 'rtl', self.rtl);
 
 		self.$control
-			.toggleClass('focus', self.isFocused)
-			.toggleClass('disabled', self.isDisabled)
-			.toggleClass('required', self.isRequired)
-			.toggleClass('invalid', self.isInvalid)
-			.toggleClass('locked', isLocked)
-			.toggleClass('full', isFull).toggleClass('not-full', !isFull)
-			.toggleClass('input-active', self.isFocused && !self.isInputHidden)
-			.toggleClass('dropdown-active', self.isOpen)
-			.toggleClass('has-options', !$.isEmptyObject(self.options))
-			.toggleClass('has-items', self.items.length > 0);
+			.toggleClass(self.settings.classPrefix + 'focus', self.isFocused)
+			.toggleClass(self.settings.classPrefix + 'disabled', self.isDisabled)
+			.toggleClass(self.settings.classPrefix + 'required', self.isRequired)
+			.toggleClass(self.settings.classPrefix + 'invalid', self.isInvalid)
+			.toggleClass(self.settings.classPrefix + 'locked', isLocked)
+			.toggleClass(self.settings.classPrefix + 'full', isFull).toggleClass(self.settings.classPrefix + 'not-full', !isFull)
+			.toggleClass(self.settings.classPrefix + 'input-active', self.isFocused && !self.isInputHidden)
+			.toggleClass(self.settings.classPrefix + 'dropdown-active', self.isOpen)
+			.toggleClass(self.settings.classPrefix + 'has-options', !$.isEmptyObject(self.options))
+			.toggleClass(self.settings.classPrefix + 'has-items', self.items.length > 0);
 
 		self.$control_input.data('grow', !isFull && !isLocked);
 	},
@@ -1999,7 +2006,7 @@ $.extend(Selectize.prototype, {
 			.html('')
 			.append(revertSettings.$children)
 			.removeAttr('tabindex')
-			.removeClass('selectized')
+			.removeClass(self.settings.classPrefix + 'selectized')
 			.attr({tabindex: revertSettings.tabindex})
 			.show();
 

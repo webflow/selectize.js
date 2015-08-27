@@ -6,8 +6,9 @@
  * - Modified by Brian Reavis <brian@thirdroute.com> 2012-8-27 (cleanup)
  */
 
-var highlight = function($element, pattern) {
+var highlight = function($element, pattern, classPrefix) {
 	if (typeof pattern === 'string' && !pattern.length) return;
+	classPrefix = classPrefix || '';
 	var regex = (typeof pattern === 'string') ? new RegExp(pattern, 'i') : pattern;
 
 	var highlight = function(node) {
@@ -17,7 +18,7 @@ var highlight = function($element, pattern) {
 			if (pos >= 0 && node.data.length > 0) {
 				var match = node.data.match(regex);
 				var spannode = document.createElement('span');
-				spannode.className = 'highlight';
+				spannode.className = classPrefix + 'highlight';
 				var middlebit = node.splitText(pos);
 				var endbit = middlebit.splitText(match[0].length);
 				var middleclone = middlebit.cloneNode(true);
