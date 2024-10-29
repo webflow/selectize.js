@@ -50,5 +50,14 @@
   },
   "engines": {
     "node": "*"
+  },
+  "overrides": {
+    "minimist": "^0.2.1 || ^1.2.3",
+    "mkdirp": {
+      "minimist": "0.2.1"
+    },
+    "optimist": {
+      "minimist": "0.2.1"
+    }
   }
 }
